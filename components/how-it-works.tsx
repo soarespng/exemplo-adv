@@ -33,11 +33,8 @@ interface HowItWorksSimpleProps {
 }
 
 export default function HowItWorks({
-  title,
   steps,
   backgroundColor = "bg-white",
-  textColor = "text-gray-600",
-  titleColor = "text-gray-900",
   stepTitleColor = "text-gray-900",
   stepDescriptionColor = "text-gray-600",
   iconBackgroundColor = "bg-primary",

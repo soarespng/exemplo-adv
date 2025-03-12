@@ -203,7 +203,7 @@ export default function Contact({
   }
 
   return (
-    <div className={`w-full ${backgroundColor}`}>
+    <div className={`w-full ${backgroundColor} ${borderColor}`}>
       <div className="container mx-auto px-4 py-12">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <p

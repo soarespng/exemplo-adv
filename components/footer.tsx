@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+import Image from "next/image"
 
 interface TypographyProps {
   fontFamily?: string
@@ -109,7 +110,7 @@ export default function Footer({
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
               {logoSrc ? (
-                <img src={logoSrc || "/placeholder.svg"} alt={logo} className="h-8" />
+                <Image src={logoSrc || "/placeholder.svg"} alt={logo} className="h-8" />
               ) : (
                 <span
                   className={`${headingColor} 

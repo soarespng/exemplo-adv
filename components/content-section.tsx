@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 import Link from "next/link"
 
 interface TypographyProps {
@@ -84,10 +85,9 @@ export default function ContentSection({
   },
 }: ContentSectionProps) {
   const isHorizontal = imagePosition === "left" || imagePosition === "right"
-  const isVertical = imagePosition === "top" || imagePosition === "bottom"
 
   return (
-    <div className={`${backgroundColor} p-8 rounded-lg border ${borderColor}`}>
+    <div className={`${backgroundColor} ${textColor} p-8 rounded-lg border ${borderColor}`}>
       <div
         className={`
         ${isHorizontal ? "flex flex-col md:flex-row gap-8 items-center" : "flex flex-col gap-8"}
@@ -104,7 +104,7 @@ export default function ContentSection({
             ${imagePosition === "top" || imagePosition === "bottom" ? "mx-auto max-w-2xl" : ""}
           `}
           >
-            <img
+            <Image
               src={imageSrc || "/placeholder.svg"}
               alt={imageAlt}
               className="w-full h-auto rounded-lg object-cover"

@@ -28,7 +28,6 @@ interface FAQSimpleProps {
   titleColor?: string
   questionColor?: string
   answerColor?: string
-  accentColor?: string
   borderColor?: string
   typography?: FAQTypographyProps
 }
@@ -41,7 +40,6 @@ export default function FAQ({
   titleColor = "text-gray-900",
   questionColor = "text-gray-900",
   answerColor = "text-gray-600",
-  accentColor = "text-primary",
   borderColor = "border-gray-200",
   typography = {
     title: {
@@ -65,7 +63,7 @@ export default function FAQ({
   },
 }: FAQSimpleProps) {
   return (
-    <div className={`${backgroundColor} p-8 rounded-lg border ${borderColor}`}>
+    <div className={`${backgroundColor} ${textColor} p-8 rounded-lg border ${borderColor}`}>
       {title && (
         <h2
           className={`${titleColor} mb-6 text-center

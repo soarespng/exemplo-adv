@@ -1,4 +1,4 @@
-import Contact from "@/components/contact-complex"
+import Contact from "@/components/contact"
 import ContentSection from "@/components/content-section"
 import Footer from "@/components/footer"
 import Header from "@/components/header"

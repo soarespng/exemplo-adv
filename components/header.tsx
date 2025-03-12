@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Check } from "lucide-react"
+import Image from "next/image"
 
 interface TypographyProps {
     fontFamily?: string
@@ -194,7 +195,7 @@ export default function Header({
                     </div>
 
                     <div className={`flex justify-center ${imagePosition === "left" ? "md:order-first" : ""}`}>
-                        <img
+                        <Image
                             src={imageSrc || "/placeholder.svg"}
                             alt="Header illustration"
                             className="w-full max-w-lg rounded-lg object-cover"
