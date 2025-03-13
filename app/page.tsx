@@ -19,33 +19,6 @@ import {
 } from "lucide-react"
 
 export default function Home() {
-  // Definição centralizada da paleta de cores
-  const colors = {
-    dark: "#262425", // Cinza escuro/quase preto - para fundos escuros e texto principal
-    beige: "#D9B88F", // Bege/marrom claro - para elementos de destaque e texto sobre fundo escuro
-    gold: "#BF8654", // Marrom médio/dourado - para elementos de destaque e hover
-    brown: "#8C583A", // Marrom escuro - para botões e elementos de ação
-    burgundy: "#733030", // Vermelho escuro/bordô - para elementos de destaque secundários
-    white: "#FFFFFF", // Branco - para fundos claros e texto sobre fundos escuros
-    offWhite: "#F9F5F0", // Branco suave - para fundos alternativos
-  }
-
-  // Definição de estilos comuns para reutilização
-  const styles = {
-    section: {
-      padding: "py-20",
-    },
-    container: "container mx-auto px-4",
-    sectionTitle: {
-      main: `text-4xl font-bold text-[${colors.dark}] mb-2`,
-      light: `text-4xl font-bold text-[${colors.white}] mb-2`,
-    },
-    sectionSubtitle: {
-      main: `text-lg font-medium text-[${colors.brown}] mb-8`,
-      light: `text-lg font-medium text-[${colors.beige}] mb-8`,
-    },
-  }
-
   // Dados de depoimentos
   const testimonials = [
     {
@@ -170,15 +143,15 @@ export default function Home() {
         showSearch={false}
         showCart={false}
         showProfile={false}
-        backgroundColor={`bg-[${colors.dark}]`}
-        textColor={`text-[${colors.beige}]`}
-        activeTextColor={`text-[${colors.gold}]`}
-        hoverTextColor={`text-[${colors.gold}]`}
-        dropdownBackgroundColor={`bg-[${colors.dark}]`}
+        backgroundColor="bg-[#262425]"
+        textColor="text-[#D9B88F]"
+        activeTextColor="text-[#BF8654]"
+        hoverTextColor="text-[#BF8654]"
+        dropdownBackgroundColor="bg-[#262425]"
         ctaButtonStyle={{
-          backgroundColor: `bg-[${colors.brown}]`,
+          backgroundColor: "bg-[#8C583A]",
           textColor: "text-white",
-          hoverBackgroundColor: `bg-[${colors.burgundy}]`,
+          hoverBackgroundColor: "bg-[#733030]",
           hoverTextColor: "text-white",
         }}
         sticky={true}
@@ -193,7 +166,7 @@ export default function Home() {
         description="Defendendo seus direitos com compromisso e profissionalismo. Oferecemos atendimento personalizado para garantir os melhores resultados para cada caso."
         primaryButtonText="Agende uma Consulta"
         primaryButtonLink="#contato"
-        secondaryButtonText="Conheça Nossos Serviços"
+        secondaryButtonText=""
         secondaryButtonLink="#servicos"
         features={[
           "Mais de 15 anos de experiência",
@@ -202,43 +175,44 @@ export default function Home() {
           "Honorários justos",
         ]}
         imageSrc="/header-image-judge.png"
-        backgroundColor={`bg-gradient-to-r from-[${colors.beige}]/20 to-[${colors.beige}]/5`}
-        accentColor={`text-[${colors.brown}]`}
-        textColor={`text-[${colors.dark}]`}
-        subtitleColor={`text-[${colors.burgundy}]`}
-        descriptionColor={`text-[${colors.dark}]/80`}
-        primaryButtonBackgroundColor={`bg-[${colors.brown}]`}
+        backgroundColor="bg-gradient-to-r from-[#D9B88F]/20 to-[#D9B88F]/5"
+        accentColor="text-[#8C583A]"
+        textColor="text-[#262425]"
+        subtitleColor="text-[#733030]"
+        descriptionColor="text-[#262425]/80"
+        primaryButtonBackgroundColor="bg-[#8C583A]"
         primaryButtonTextColor="text-white"
-        primaryButtonHoverBackgroundColor={`bg-[${colors.burgundy}]`}
-        secondaryButtonBackgroundColor={`bg-[${colors.dark}]`}
-        secondaryButtonTextColor={`text-[${colors.beige}]`}
-        secondaryButtonHoverBackgroundColor={`bg-[${colors.dark}]/90`}
+        primaryButtonHoverBackgroundColor="bg-[#733030]"
+        secondaryButtonBackgroundColor="bg-[#262425]"
+        secondaryButtonTextColor="text-[#D9B88F]"
+        secondaryButtonHoverBackgroundColor="bg-[#262425]/90"
       />
 
       {/* Como Trabalhamos */}
-      <section id="processo" className={`${styles.section.padding} bg-[${colors.offWhite}]`}>
-        <div className={styles.container}>
-          <h2 className={`text-center ${styles.sectionTitle.main}`}>Como Trabalhamos</h2>
-          <p className={`text-center ${styles.sectionSubtitle.main}`}>NOSSO PROCESSO</p>
+      <section id="processo" className="py-20 bg-[#F9F5F0]">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl font-bold text-[#262425] mb-2 text-center">Como Trabalhamos</h2>
+          <p className="text-lg font-medium text-[#8C583A] mb-8 text-center">NOSSO PROCESSO</p>
 
           <HowItWorks
-            backgroundColor={`bg-[${colors.offWhite}]`}
-            textColor={`text-[${colors.dark}]`}
-            titleColor={`text-[${colors.dark}]`}
-            stepTitleColor={`text-[${colors.brown}]`}
-            stepDescriptionColor={`text-[${colors.dark}]/80`}
-            iconBackgroundColor={`bg-[${colors.beige}]`}
-            iconColor={`text-[${colors.brown}]`}
+            title=""
             steps={processSteps}
+            backgroundColor="bg-[#F9F5F0]"
+            textColor="text-[#262425]"
+            titleColor="text-[#262425]"
+            stepTitleColor="text-[#8C583A]"
+            stepDescriptionColor="text-[#262425]/80"
+            iconBackgroundColor="bg-[#D9B88F]"
+            iconColor="text-[#8C583A]"
           />
         </div>
       </section>
 
       {/* Serviços */}
-      <section id="servicos" className={`${styles.section.padding} bg-white`}>
-        <div className={styles.container}>
-          <h2 className={`text-center ${styles.sectionTitle.main}`}>Nossos Serviços</h2>
-          <p className={`text-center ${styles.sectionSubtitle.main}`}>SOLUÇÕES JURÍDICAS COMPLETAS</p>
+      <section id="servicos" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl font-bold text-[#262425] mb-2 text-center">Nossos Serviços</h2>
+          <p className="text-lg font-medium text-[#8C583A] mb-8 text-center">SOLUÇÕES JURÍDICAS COMPLETAS</p>
 
           <ServicesFeature
             showMainContent={false}
@@ -251,25 +225,25 @@ export default function Home() {
             mainButtonLink="#contato"
             features={services}
             backgroundColor="bg-white"
-            textColor={`text-[${colors.dark}]`}
-            titleColor={`text-[${colors.dark}]`}
-            subtitleColor={`text-[${colors.brown}]`}
-            mainTitleColor={`text-[${colors.dark}]`}
-            mainDescriptionColor={`text-[${colors.dark}]/80`}
-            featureTitleColor={`text-[${colors.brown}]`}
-            featureDescriptionColor={`text-[${colors.dark}]/80`}
-            buttonBackgroundColor={`bg-[${colors.brown}]`}
+            textColor="text-[#262425]"
+            titleColor="text-[#262425]"
+            subtitleColor="text-[#8C583A]"
+            mainTitleColor="text-[#262425]"
+            mainDescriptionColor="text-[#262425]/80"
+            featureTitleColor="text-[#8C583A]"
+            featureDescriptionColor="text-[#262425]/80"
+            buttonBackgroundColor="bg-[#8C583A]"
             buttonTextColor="text-white"
-            buttonHoverBackgroundColor={`bg-[${colors.burgundy}]`}
-            iconColor={`text-[${colors.brown}]`}
-            iconBackgroundColor={`bg-[${colors.beige}]/30`}
+            buttonHoverBackgroundColor="bg-[#733030]"
+            iconColor="text-[#8C583A]"
+            iconBackgroundColor="bg-[#D9B88F]/30"
           />
         </div>
       </section>
 
       {/* Sobre Nós */}
-      <section id="sobre" className={`${styles.section.padding} bg-[${colors.dark}]`}>
-        <div className={styles.container}>
+      <section id="sobre" className="py-20 bg-[#262425]">
+        <div className="container mx-auto px-4">
           <ContentSection
             title="Sobre o Escritório Oliveira"
             subtitle="NOSSA HISTÓRIA"
@@ -278,40 +252,40 @@ export default function Home() {
             buttonText="Conheça Nossa Equipe"
             buttonLink="#equipe"
             imagePosition="right"
-            backgroundColor={`bg-[${colors.dark}]`}
-            textColor={`text-[${colors.beige}]`}
+            backgroundColor="bg-[#262425]"
+            textColor="text-[#D9B88F]"
             titleColor="text-white"
-            subtitleColor={`text-[${colors.gold}]`}
-            contentColor={`text-[${colors.beige}]`}
-            buttonBackgroundColor={`bg-[${colors.brown}]`}
+            subtitleColor="text-[#BF8654]"
+            contentColor="text-[#D9B88F]"
+            buttonBackgroundColor="bg-[#8C583A]"
             buttonTextColor="text-white"
-            buttonHoverBackgroundColor={`bg-[${colors.burgundy}]`}
+            buttonHoverBackgroundColor="bg-[#733030]"
             borderColor="border-transparent"
           />
         </div>
       </section>
 
       {/* Depoimentos */}
-      <section id="depoimentos" className={`${styles.section.padding} bg-[${colors.offWhite}]`}>
-        <div className={styles.container}>
-          <h2 className={`text-center ${styles.sectionTitle.main}`}>Depoimentos</h2>
-          <p className={`text-center ${styles.sectionSubtitle.main}`}>O QUE NOSSOS CLIENTES DIZEM</p>
+      <section id="depoimentos" className="py-20 bg-[#F9F5F0]">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl font-bold text-[#262425] mb-2 text-center">Depoimentos</h2>
+          <p className="text-lg font-medium text-[#8C583A] mb-8 text-center">O QUE NOSSOS CLIENTES DIZEM</p>
 
           <TestimonialGrid
             testimonials={testimonials}
             backgroundColor="bg-white"
-            textColor={`text-[${colors.dark}]/80`}
-            authorColor={`text-[${colors.dark}]`}
-            roleColor={`text-[${colors.brown}]`}
-            starColor={`text-[${colors.gold}]`}
-            borderColor={`border-[${colors.beige}]`}
+            textColor="text-[#262425]/80"
+            authorColor="text-[#262425]"
+            roleColor="text-[#8C583A]"
+            starColor="text-[#BF8654]"
+            borderColor="border-[#D9B88F]"
           />
         </div>
       </section>
 
       {/* Contato */}
-      <section id="contato" className={`${styles.section.padding} bg-white`}>
-        <div className={styles.container}>
+      <section id="contato" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
           <Contact
             showBudget={false}
             showCompany={false}
@@ -335,14 +309,14 @@ export default function Home() {
             serviceOptions={["Direito Trabalhista", "Direito Cível", "Consultoria Empresarial", "Outro"]}
             budgetOptions={["Até R$ 5.000", "R$ 5.000 - R$ 10.000", "R$ 10.000 - R$ 20.000", "Acima de R$ 20.000"]}
             backgroundColor="bg-white"
-            textColor={`text-[${colors.dark}]`}
-            titleColor={`text-[${colors.dark}]`}
-            subtitleColor={`text-[${colors.brown}]`}
-            accentColor={`text-[${colors.gold}]`}
-            buttonBackgroundColor={`bg-[${colors.brown}]`}
+            textColor="text-[#262425]"
+            titleColor="text-[#262425]"
+            subtitleColor="text-[#8C583A]"
+            accentColor="text-[#BF8654]"
+            buttonBackgroundColor="bg-[#8C583A]"
             buttonTextColor="text-white"
-            buttonHoverBackgroundColor={`bg-[${colors.burgundy}]`}
-            borderColor={`border-[${colors.beige}]`}
+            buttonHoverBackgroundColor="bg-[#733030]"
+            borderColor="border-[#D9B88F]"
           />
         </div>
       </section>
@@ -375,14 +349,14 @@ export default function Home() {
           { type: "linkedin", href: "#" },
         ]}
         copyright="© 2025 Dra. Oliveira Advocacia. Todos os direitos reservados. OAB/SP 123456"
-        backgroundColor={`bg-[${colors.dark}]`}
-        textColor={`text-[${colors.beige}]`}
+        backgroundColor="bg-[#262425]"
+        textColor="text-[#D9B88F]"
         headingColor="text-white"
-        linkColor={`text-[${colors.beige}]`}
-        linkHoverColor={`text-[${colors.gold}]`}
-        socialIconColor={`text-[${colors.beige}]`}
-        socialIconHoverColor={`text-[${colors.gold}]`}
-        borderColor={`border-[${colors.brown}]`}
+        linkColor="text-[#D9B88F]"
+        linkHoverColor="text-[#BF8654]"
+        socialIconColor="text-[#D9B88F]"
+        socialIconHoverColor="text-[#BF8654]"
+        borderColor="border-[#8C583A]"
       />
     </div>
   )

@@ -1,7 +1,6 @@
 import type React from "react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import Image from "next/image"
 
 interface Feature {
   title: string
@@ -158,7 +157,7 @@ export default function ServicesFeature({
         {/* Main Feature with Image */}
         {showMainContent && <div className={`flex flex-col ${layout === "imageLeft" ? "lg:flex-row-reverse" : "lg:flex-row"} gap-12 mb-16`}>
           <div className="lg:w-1/2">
-            <Image
+            <img
               src={mainImage || "/placeholder.svg"}
               alt={mainTitle}
               className="w-full h-auto rounded-lg object-cover"

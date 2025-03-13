@@ -5,7 +5,6 @@ import Link from "next/link"
 import { ChevronDown, Menu, X, Search, ShoppingCart, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import Image from "next/image"
 
 interface TypographyProps {
   fontFamily?: string
@@ -133,7 +132,7 @@ export default function Navbar({
         {/* Logo */}
         <div className="flex items-center">
           {logoSrc ? (
-            <Image src={logoSrc || "/placeholder.svg"} alt={logo} className="h-10" />
+            <img src={logoSrc || "/placeholder.svg"} alt={logo} className="h-10" />
           ) : (
             <span
               className={`${navTextColor} 

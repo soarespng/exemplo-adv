@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
 import Link from "next/link"
 
 interface TypographyProps {
@@ -104,7 +103,7 @@ export default function ContentSection({
             ${imagePosition === "top" || imagePosition === "bottom" ? "mx-auto max-w-2xl" : ""}
           `}
           >
-            <Image
+            <img
               src={imageSrc || "/placeholder.svg"}
               alt={imageAlt}
               className="w-full h-auto rounded-lg object-cover"

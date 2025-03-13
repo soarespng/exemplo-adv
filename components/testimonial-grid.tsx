@@ -1,5 +1,4 @@
 import { Star } from "lucide-react"
-import Image from "next/image"
 
 interface Testimonial {
   quote: string
@@ -89,7 +88,7 @@ export default function TestimonialGrid({
           </blockquote>
           <div className="flex items-center">
             {testimonial.imageSrc && (
-              <Image
+              <img
                 src={testimonial.imageSrc || "/placeholder.svg"}
                 alt={testimonial.author}
                 className="w-8 h-8 rounded-full mr-3 object-cover"
