@@ -5,6 +5,7 @@ import Link from "next/link"
 import { ChevronDown, Menu, X, Search, ShoppingCart, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import TrackClick from "./analytics/track-click"
 
 interface TypographyProps {
   fontFamily?: string
@@ -219,17 +220,19 @@ export default function Navbar({
 
           {ctaButton && (
             <Link href={ctaButton.href}>
-              <Button
-                className={`${ctaButtonStyle.backgroundColor} ${
-                  ctaButtonStyle.textColor
-                } hover:${ctaButtonStyle.hoverBackgroundColor} hover:${ctaButtonStyle.hoverTextColor}
-                  ${typography.cta?.fontFamily} 
-                  ${typography.cta?.fontSize} 
-                  ${typography.cta?.fontWeight}
-                  ${typography.cta?.fontStyle}`}
-              >
-                {ctaButton.text}
-              </Button>
+              <TrackClick eventName="navbar_cta_click" elementId="navbar-cta">
+                <Button
+                  className={`${ctaButtonStyle.backgroundColor} ${
+                    ctaButtonStyle.textColor
+                  } hover:${ctaButtonStyle.hoverBackgroundColor} hover:${ctaButtonStyle.hoverTextColor}
+                    ${typography.cta?.fontFamily} 
+                    ${typography.cta?.fontSize} 
+                    ${typography.cta?.fontWeight}
+                    ${typography.cta?.fontStyle}`}
+                >
+                  {ctaButton.text}
+                </Button>
+              </TrackClick>
             </Link>
           )}
         </div>

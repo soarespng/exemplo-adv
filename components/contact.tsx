@@ -12,6 +12,8 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent } from "@/components/ui/card"
 import { Mail, Phone, MapPin, Clock, Send, MessageSquare, FileText } from "lucide-react"
+import { submitContactForm } from "@/app/actions/contact-actions"
+import TrackClick from "./analytics/track-click"
 
 interface TypographyProps {
   fontFamily?: string
@@ -150,7 +152,7 @@ export default function Contact({
       fontStyle: "normal",
     },
   },
-  onSubmit = () => {},
+  onSubmit,
 }: ContactComplexProps) {
   const [formData, setFormData] = useState({
     name: "",
@@ -163,8 +165,10 @@ export default function Contact({
     files: null as File[] | null,
     terms: false,
   })
-
   const [activeTab, setActiveTab] = useState("project")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formError, setFormError] = useState<string | null>(null)
+  const [formSuccess, setFormSuccess] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -185,29 +189,71 @@ export default function Contact({
     setFormData((prev) => ({ ...prev, terms: checked }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(formData)
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      budget: "",
-      service: "",
-      message: "",
-      files: null,
-      terms: false,
-    })
+    setIsSubmitting(true)
+    setFormError(null)
+    setFormSuccess(null)
+
+    try {
+      // Call the server action to submit the form
+      const result = await submitContactForm({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        budget: formData.budget,
+        service: formData.service,
+        message: formData.message,
+        terms: formData.terms,
+      })
+
+      if (result.success) {
+        setFormSuccess(result.message)
+
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          company: "",
+          budget: "",
+          service: "",
+          message: "",
+          files: null,
+          terms: false,
+        })
+
+        // Call the onSubmit prop if provided
+        if (onSubmit) {
+          onSubmit(formData)
+        }
+      } else {
+        setFormError(result.message)
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error)
+      setFormError("Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
     <div className={`w-full ${backgroundColor} ${borderColor}`}>
       <div className="container mx-auto px-4 py-12">
         <div className="text-center max-w-3xl mx-auto mb-12">
+          <h2
+            className={`${textColor} mb-2
+              ${typography.title?.fontFamily} 
+              ${typography.title?.fontSize} 
+              ${typography.title?.fontWeight}
+              ${typography.title?.fontStyle}`}
+          >
+            {title}
+          </h2>
           <p
-            className={`${accentColor} mb-2
+            className={`${accentColor} mb-8
               ${typography.subtitle?.fontFamily} 
               ${typography.subtitle?.fontSize} 
               ${typography.subtitle?.fontWeight}
@@ -215,15 +261,6 @@ export default function Contact({
           >
             {subtitle}
           </p>
-          <h1
-            className={`${textColor} mb-4
-              ${typography.title?.fontFamily} 
-              ${typography.title?.fontSize} 
-              ${typography.title?.fontWeight}
-              ${typography.title?.fontStyle}`}
-          >
-            {title}
-          </h1>
           <p
             className={`text-gray-500
               ${typography.description?.fontFamily} 
@@ -348,6 +385,16 @@ export default function Contact({
                     </TabsList>
                   </Tabs>
                 ) : null}
+
+                {formError && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-800 rounded-md">{formError}</div>
+                )}
+
+                {formSuccess && (
+                  <div className="mb-4 p-3 bg-green-50 border border-green-200 text-green-800 rounded-md">
+                    {formSuccess}
+                  </div>
+                )}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -537,17 +584,20 @@ export default function Contact({
                     </Label>
                   </div>
 
-                  <Button
-                    type="submit"
-                    className={`w-full ${buttonBackgroundColor} ${buttonTextColor} hover:${buttonHoverBackgroundColor} hover:${buttonHoverTextColor}
+                  <TrackClick eventName="contact_form_click" elementId="contact-form-cta">
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className={`w-full ${buttonBackgroundColor} ${buttonTextColor} hover:${buttonHoverBackgroundColor} hover:${buttonHoverTextColor}
                       ${typography.button?.fontFamily} 
                       ${typography.button?.fontSize} 
                       ${typography.button?.fontWeight}
                       ${typography.button?.fontStyle}`}
-                  >
-                    {buttonText}
-                    <Send className="ml-2 h-4 w-4" />
-                  </Button>
+                    >
+                      {isSubmitting ? "Enviando..." : buttonText}
+                      {!isSubmitting && <Send className="ml-2 h-4 w-4" />}
+                    </Button>
+                  </TrackClick>
                 </form>
               </CardContent>
             </Card>

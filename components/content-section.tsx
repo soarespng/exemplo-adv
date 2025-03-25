@@ -113,6 +113,18 @@ export default function ContentSection({
 
         {/* Content */}
         <div className={`${isHorizontal ? "md:w-1/2" : "w-full"}`}>
+          {title && (
+            <h2
+              className={`${titleColor} mb-4
+              ${typography.title?.fontFamily} 
+              ${typography.title?.fontSize} 
+              ${typography.title?.fontWeight}
+              ${typography.title?.fontStyle}`}
+            >
+              {title}
+            </h2>
+          )}
+
           {subtitle && (
             <p
               className={`${subtitleColor} mb-2
@@ -123,18 +135,6 @@ export default function ContentSection({
             >
               {subtitle}
             </p>
-          )}
-
-          {title && (
-            <h2
-              className={`${titleColor} mb-4
-                ${typography.title?.fontFamily} 
-                ${typography.title?.fontSize} 
-                ${typography.title?.fontWeight}
-                ${typography.title?.fontStyle}`}
-            >
-              {title}
-            </h2>
           )}
 
           {content && (

@@ -1,6 +1,8 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Check } from "lucide-react"
+import WhatsAppButton from "./whatsapp-button"
+import TrackClick from "./analytics/track-click"
 
 interface TypographyProps {
     fontFamily?: string
@@ -68,10 +70,6 @@ export default function Header({
     primaryButtonTextColor = "text-white",
     primaryButtonHoverBackgroundColor = "bg-primary/90",
     primaryButtonHoverTextColor = "text-white",
-    secondaryButtonBackgroundColor = "bg-white",
-    secondaryButtonTextColor = "text-gray-900",
-    secondaryButtonHoverBackgroundColor = "bg-gray-100",
-    secondaryButtonHoverTextColor = "text-gray-900",
     height = "py-16 md:py-24",
     imagePosition = "right",
     typography = {
@@ -112,8 +110,8 @@ export default function Header({
             <div className="container mx-auto px-4">
                 <div
                     className={`grid md:grid-cols-2 gap-12 md:gap-8 items-center ${imagePosition === "left" ? "md:flex-row-reverse" : ""
-                    }`}
-                    >
+                        }`}
+                >
                     <div className="flex flex-col gap-6">
                         {subtitle && (
                             <p
@@ -178,7 +176,7 @@ export default function Header({
                             </Link>
                             {secondaryButtonText && (
                                 <Link href={secondaryButtonLink || "#"}>
-                                    <Button
+                                    {/* <Button
                                         variant="outline"
                                         className={`${secondaryButtonBackgroundColor} ${secondaryButtonTextColor} hover:${secondaryButtonHoverBackgroundColor} hover:${secondaryButtonHoverTextColor}
                       ${typography.button?.fontFamily} 
@@ -187,7 +185,14 @@ export default function Header({
                       ${typography.button?.fontStyle}`}
                                     >
                                         {secondaryButtonText}
-                                    </Button>
+                                        <MessageCircle size={24} />
+                                    </Button> */}
+                                    <TrackClick eventName="header_wpp_click" elementId="header-wpp-cta">
+                                        <WhatsAppButton
+                                            buttonText="Fale com um especialista"
+                                            phoneNumber="+55 11 97431-6804"
+                                            message="Olá! Gostaria de agendar uma consulta com a Dra. Oliveira." />
+                                    </TrackClick>
                                 </Link>
                             )}
                         </div>

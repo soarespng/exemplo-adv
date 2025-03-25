@@ -1,3 +1,11 @@
+"use client";
+
+import { useState, useEffect } from "react"
+
+import TrackClick from "@/components/analytics/track-click"
+import FloatingWhatsAppButton from "@/components/floating-whatsapp-button"
+import WhatsAppButton from "@/components/whatsapp-button";
+
 import Contact from "@/components/contact"
 import ContentSection from "@/components/content-section"
 import Footer from "@/components/footer"
@@ -19,7 +27,41 @@ import {
 } from "lucide-react"
 
 export default function Home() {
-  // Dados de depoimentos
+  const [activeSection, setActiveSection] = useState("inicio")
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["inicio", "sobre", "servicos", "depoimentos", "contato"]
+
+      let currentSection = "inicio"
+      let minDistance = Number.POSITIVE_INFINITY
+
+      sections.forEach((sectionId) => {
+        const element = document.getElementById(sectionId)
+        if (element) {
+          const rect = element.getBoundingClientRect()
+          const distance = Math.abs(rect.top)
+
+          if (distance < minDistance) {
+            minDistance = distance
+            currentSection = sectionId
+          }
+        }
+      })
+
+      setActiveSection(currentSection)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    handleScroll()
+    document.documentElement.style.scrollBehavior = "smooth"
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      document.documentElement.style.scrollBehavior = ""
+    }
+  }, [])
+
   const testimonials = [
     {
       quote:
@@ -71,7 +113,6 @@ export default function Home() {
     },
   ]
 
-  // Dados dos serviços
   const services = [
     {
       title: "Análise de Contratos",
@@ -105,7 +146,6 @@ export default function Home() {
     },
   ]
 
-  // Dados do processo de trabalho
   const processSteps = [
     {
       title: "Consulta Inicial",
@@ -131,13 +171,14 @@ export default function Home() {
       {/* Navbar */}
       <Navbar
         height="h-20"
-        logo="Dra. Oliveira Advocacia"
+        logoSrc="/logo.svg"
+        logo="Marleide Soares"
         links={[
-          { text: "Início", href: "#", isActive: true },
-          { text: "Sobre Nós", href: "#sobre" },
-          { text: "Serviços", href: "#servicos" },
-          { text: "Depoimentos", href: "#depoimentos" },
-          { text: "Contato", href: "#contato" },
+          { text: "Início", href: "#inicio", isActive: activeSection === "inicio" },
+          { text: "Serviços", href: "#servicos", isActive: activeSection === "servicos" },
+          { text: "Sobre Nós", href: "#sobre", isActive: activeSection === "sobre" },
+          { text: "Depoimentos", href: "#depoimentos", isActive: activeSection === "depoimentos" },
+          { text: "Contato", href: "#contato", isActive: activeSection === "contato" },
         ]}
         ctaButton={{ text: "Agendar Consulta", href: "#contato" }}
         showSearch={false}
@@ -159,37 +200,39 @@ export default function Home() {
       />
 
       {/* Header/Hero Section */}
-      <Header
-        customize="flex justify-center items-center min-h-[90vh]"
-        title="Advocacia Especializada em Direito Trabalhista e Cível"
-        subtitle="EXCELÊNCIA E DEDICAÇÃO"
-        description="Defendendo seus direitos com compromisso e profissionalismo. Oferecemos atendimento personalizado para garantir os melhores resultados para cada caso."
-        primaryButtonText="Agende uma Consulta"
-        primaryButtonLink="#contato"
-        secondaryButtonText=""
-        secondaryButtonLink="#servicos"
-        features={[
-          "Mais de 15 anos de experiência",
-          "Atendimento personalizado",
-          "Primeira consulta gratuita",
-          "Honorários justos",
-        ]}
-        imageSrc="/header-image-judge.png"
-        backgroundColor="bg-gradient-to-r from-[#D9B88F]/20 to-[#D9B88F]/5"
-        accentColor="text-[#8C583A]"
-        textColor="text-[#262425]"
-        subtitleColor="text-[#733030]"
-        descriptionColor="text-[#262425]/80"
-        primaryButtonBackgroundColor="bg-[#8C583A]"
-        primaryButtonTextColor="text-white"
-        primaryButtonHoverBackgroundColor="bg-[#733030]"
-        secondaryButtonBackgroundColor="bg-[#262425]"
-        secondaryButtonTextColor="text-[#D9B88F]"
-        secondaryButtonHoverBackgroundColor="bg-[#262425]/90"
-      />
+      <div id="inicio">
+        <Header
+          customize="flex justify-center items-center"
+          title="Advocacia Especializada em Direito Trabalhista e Cível"
+          subtitle="EXCELÊNCIA E DEDICAÇÃO"
+          description="Defendendo seus direitos com compromisso e profissionalismo. Oferecemos atendimento personalizado para garantir os melhores resultados para cada caso."
+          primaryButtonText="Agende uma Consulta"
+          primaryButtonLink="#contato"
+          secondaryButtonText="Fale com um especialista"
+          features={[
+            "Mais de 15 anos de experiência",
+            "Atendimento personalizado",
+            "Primeira consulta gratuita",
+            "Honorários justos",
+          ]}
+          imageSrc="/header-image-judge.png"
+          // backgroundColor="bg-gradient-to-r from-[#D9B88F]/20 to-[#D9B88F]/5"
+          backgroundColor="bg-[#F9F5F0]"
+          accentColor="text-[#8C583A]"
+          textColor="text-[#262425]"
+          subtitleColor="text-[#733030]"
+          descriptionColor="text-[#262425]/80"
+          primaryButtonBackgroundColor="bg-[#8C583A]"
+          primaryButtonTextColor="text-white"
+          primaryButtonHoverBackgroundColor="bg-[#733030]"
+          secondaryButtonBackgroundColor="bg-[#25D366]"
+          secondaryButtonTextColor="text-white"
+          secondaryButtonHoverBackgroundColor="bg-[#262425]/90"
+        />
+      </div>
 
       {/* Como Trabalhamos */}
-      <section id="processo" className="py-20 bg-[#F9F5F0]">
+      <section id="processo" className="bg-[#F9F5F0]">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-[#262425] mb-2 text-center">Como Trabalhamos</h2>
           <p className="text-lg font-medium text-[#8C583A] mb-8 text-center">NOSSO PROCESSO</p>
@@ -238,6 +281,15 @@ export default function Home() {
             iconColor="text-[#8C583A]"
             iconBackgroundColor="bg-[#D9B88F]/30"
           />
+
+          <div className="text-center">
+            <TrackClick eventName="services_wpp_cta_click" elementId="services-wpp-cta">
+              <WhatsAppButton
+                buttonText="Podemos te ajudar!"
+                phoneNumber="+55 11 97431-6804"
+                message="Olá! Gostaria de agendar uma consulta com a Dra. Oliveira." />
+            </TrackClick>
+          </div>
         </div>
       </section>
 
@@ -245,12 +297,10 @@ export default function Home() {
       <section id="sobre" className="py-20 bg-[#262425]">
         <div className="container mx-auto px-4">
           <ContentSection
-            title="Sobre o Escritório Oliveira"
-            subtitle="NOSSA HISTÓRIA"
-            content="Fundado em 2008 pela Dra. Marleide Oliveira, nosso escritório se destaca pela excelência e dedicação aos clientes. Com uma equipe de advogados especializados em diferentes áreas do direito, oferecemos soluções jurídicas personalizadas e eficientes. Nosso compromisso é com a ética, a transparência e, acima de tudo, com a defesa incansável dos interesses de nossos clientes. Ao longo de mais de 15 anos, construímos uma reputação sólida baseada em resultados consistentes e atendimento humanizado."
+            title="Marleide Soares"
+            subtitle=""
+            content="Olá sou a Marleide Soares, espcialista em direito trabalhista e cível, formada em direito no ano de 2005 pela USP e pós graduada direito trabalhista com mais de 200 clientes."
             imageSrc="/header-image-judge.png?height=400&width=600"
-            buttonText="Conheça Nossa Equipe"
-            buttonLink="#equipe"
             imagePosition="right"
             backgroundColor="bg-[#262425]"
             textColor="text-[#D9B88F]"
@@ -280,6 +330,15 @@ export default function Home() {
             starColor="text-[#BF8654]"
             borderColor="border-[#D9B88F]"
           />
+
+          <div className="text-center mt-8">
+            <TrackClick eventName="testimonial_wpp_cta_click" elementId="testimonial-wpp-cta">
+              <WhatsAppButton
+                buttonText="Podemos te ajudar!"
+                phoneNumber="+55 11 97431-6804"
+                message="Olá! Gostaria de agendar uma consulta com a Dra. Oliveira." />
+            </TrackClick>
+          </div>
         </div>
       </section>
 
@@ -306,8 +365,7 @@ export default function Home() {
             contactPhone="(11) 99999-9999"
             contactAddress="Rua dos Advogados, 500, Centro, São Paulo - SP"
             businessHours="Segunda a Sexta, 9h às 18h"
-            serviceOptions={["Direito Trabalhista", "Direito Cível", "Consultoria Empresarial", "Outro"]}
-            budgetOptions={["Até R$ 5.000", "R$ 5.000 - R$ 10.000", "R$ 10.000 - R$ 20.000", "Acima de R$ 20.000"]}
+            serviceOptions={["Direito Trabalhista", "Direito Cível", "Consultoria", "Outro"]}
             backgroundColor="bg-white"
             textColor="text-[#262425]"
             titleColor="text-[#262425]"
@@ -358,7 +416,12 @@ export default function Home() {
         socialIconHoverColor="text-[#BF8654]"
         borderColor="border-[#8C583A]"
       />
+
+      <FloatingWhatsAppButton
+        phoneNumber="+55 11 97431-6804"
+        message="Olá! Gostaria de agendar uma consulta com a Dra. Oliveira."
+      />
+
     </div>
   )
 }
-

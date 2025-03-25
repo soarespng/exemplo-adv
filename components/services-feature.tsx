@@ -127,9 +127,9 @@ export default function ServicesFeature({
 }: ServicesFeatureProps) {
   return (
     <div className={`${backgroundColor} ${textColor} ${borderColor} py-12 px-4`}>
-      <div className="container mx-auto">
+      <div className="container mx-auto border border-gray-900 p-4 rounded-lg">
         {/* Section Header */}
-        <div className="text-center mb-12">
+        <div className="text-center">
           {subtitle && (
             <p
               className={`${subtitleColor} mb-2
