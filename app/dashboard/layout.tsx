@@ -68,6 +68,7 @@ export default function DashboardLayout({
 
       // Redirecionar para a página de login
       window.location.href = "/login"
+      router.push("/login")
     } catch (error) {
       console.error("Falha ao fazer logout:", error)
       setIsLoggingOut(false)
@@ -171,10 +172,10 @@ export default function DashboardLayout({
                     Saindo...
                   </>
                 ) : (
-                  <>
+                  <span onClick={() => {handleSignOut()}}>
                     <LogOut className="h-4 w-4" />
                     Sair
-                  </>
+                  </span>
                 )}
               </Button>
             </form>
