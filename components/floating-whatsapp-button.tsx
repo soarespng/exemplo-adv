@@ -1,89 +1,81 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useEffect } from "react"
-import { MessageCircle, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import TrackClick from "./analytics/track-click"
+import { X } from "lucide-react"
 
 interface FloatingWhatsAppButtonProps {
   phoneNumber: string
   message?: string
-  position?: "bottom-right" | "bottom-left"
-  showOnMobile?: boolean
   delay?: number
+  showTooltip?: boolean
+  tooltipText?: string
 }
 
 export default function FloatingWhatsAppButton({
   phoneNumber,
   message = "Olá! Gostaria de mais informações sobre seus serviços.",
-  position = "bottom-right",
-  showOnMobile = true,
   delay = 2000,
+  showTooltip = true,
+  tooltipText = "Precisa de ajuda? Fale conosco pelo WhatsApp!",
 }: FloatingWhatsAppButtonProps) {
   const [isVisible, setIsVisible] = useState(false)
-  const [isDismissed, setIsDismissed] = useState(false)
-
-  // Remove any non-numeric characters from phone number
-  const formattedPhone = phoneNumber.replace(/\D/g, "")
-
-  // Encode the message for URL
-  const encodedMessage = encodeURIComponent(message)
-
-  // Create WhatsApp URL
-  const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`
+  const [tooltipVisible, setTooltipVisible] = useState(false)
 
   useEffect(() => {
     // Show button after delay
-    const timer = setTimeout(() => {
-      if (!isDismissed) {
-        setIsVisible(true)
-      }
+    const buttonTimer = setTimeout(() => {
+      setIsVisible(true)
     }, delay)
 
-    return () => clearTimeout(timer)
-  }, [delay, isDismissed])
+    // Show tooltip after button appears
+    const tooltipTimer = setTimeout(() => {
+      if (showTooltip) {
+        setTooltipVisible(true)
+      }
+    }, delay + 1000)
 
-  const handleClick = () => {
-    window.open(whatsappUrl, "_blank")
+    return () => {
+      clearTimeout(buttonTimer)
+      clearTimeout(tooltipTimer)
+    }
+  }, [delay, showTooltip])
+
+  const closeTooltip = () => {
+    setTooltipVisible(false)
   }
 
-  const handleDismiss = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    setIsVisible(false)
-    setIsDismissed(true)
+  const handleWhatsAppClick = () => {
+    const encodedMessage = encodeURIComponent(message)
+    window.open(`https://wa.me/${phoneNumber.replace(/\D/g, "")}?text=${encodedMessage}`, "_blank")
   }
 
   if (!isVisible) return null
 
-  const positionClasses = {
-    "bottom-right": "bottom-4 right-4",
-    "bottom-left": "bottom-4 left-4",
-  }
-
   return (
-    <div
-      className={`fixed ${positionClasses[position]} z-50 ${
-        !showOnMobile ? "hidden md:block" : ""
-      } transition-all duration-300 ease-in-out transform ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
-    >
-      <div className="flex flex-col items-end">
-        <div className="bg-white p-3 rounded-lg shadow-lg mb-2 max-w-sm">
-          <div className="flex justify-between items-start mb-2">
-            <span className="font-medium">Precisa de ajuda?</span>
-            <button onClick={handleDismiss} className="text-gray-400 hover:text-gray-600">
-              <X size={16} />
-            </button>
-          </div>
-          <p className="text-sm text-gray-600 mb-2">Converse com um de nossos advogados agora mesmo pelo WhatsApp.</p>
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+      {tooltipVisible && (
+        <div className="bg-white rounded-lg shadow-lg p-3 max-w-xs animate-fade-in relative">
+          <button
+            onClick={closeTooltip}
+            className="absolute -top-2 -right-2 bg-gray-200 rounded-full p-1"
+            aria-label="Fechar"
+          >
+            <X className="h-3 w-3" />
+          </button>
+          <p className="text-sm">{tooltipText}</p>
         </div>
-        <TrackClick eventName="floating_wpp_click" elementId="floating-wpp-cta">
-          <Button onClick={handleClick} className="bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full p-4 shadow-lg">
-            <MessageCircle size={24} />
-          </Button>
-        </TrackClick>
-      </div>
+      )}
+
+      <button
+        onClick={handleWhatsAppClick}
+        className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#22c55e] text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-105"
+        aria-label="Fale conosco pelo WhatsApp"
+      >
+        {/* WhatsApp logo SVG - versão melhorada */}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="h-7 w-7 fill-white">
+          <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
+        </svg>
+      </button>
     </div>
   )
 }

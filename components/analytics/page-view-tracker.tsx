@@ -7,15 +7,15 @@ import { trackPageView } from "@/lib/services/analytics-service"
 export default function PageViewTracker() {
   const pathname = usePathname()
   const lastPathRef = useRef<string | null>(null)
+  const isDashboard = pathname.startsWith("/dashboard");
+  const isLogin = pathname.startsWith("/login");
 
   useEffect(() => {
-    // Evitar rastreamento duplicado se o caminho não mudou
-    if (pathname !== lastPathRef.current) {
+    if (!isDashboard && !isLogin && pathname !== lastPathRef.current) {
       trackPageView(pathname)
       lastPathRef.current = pathname
     }
   }, [pathname])
 
-  return null // Este componente não renderiza nada
+  return null
 }
-

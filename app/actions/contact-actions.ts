@@ -34,13 +34,29 @@ export async function submitContactForm(formData: ContactFormData) {
     // Create server-side Supabase client
     const supabase = await createServerSupabaseClient()
 
-    // Insert data into contact_submissions table
+    const formatPhoneNumber = (phone: string | undefined) => {
+      if (!phone) return "";
+      let cleanedPhone = phone.replace(/\D/g, "");
+    
+      if (!cleanedPhone.startsWith("55")) {
+        cleanedPhone = "55" + cleanedPhone;
+      }
+    
+      if (cleanedPhone.length === 12) {
+        cleanedPhone = cleanedPhone.slice(0, 2) + "11" + cleanedPhone.slice(2);
+      }
+    
+      return cleanedPhone;
+    };
+
+    const formattedPhone = formatPhoneNumber(formData.phone);
+
     const { data, error } = await supabase
       .from("contact_submissions")
       .insert({
         name: formData.name,
         email: formData.email,
-        phone: formData.phone || null,
+        phone: formattedPhone || null,
         company: formData.company || null,
         service: formData.service || null,
         budget: formData.budget || null,

@@ -6,6 +6,7 @@ export const dynamic = "force-dynamic"
 
 export async function POST(request: Request) {
   try {
+    // Corrigindo o uso de cookies() para compatibilidade com TypeScript
     const cookieStore = cookies()
     const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
 

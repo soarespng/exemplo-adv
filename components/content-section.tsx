@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import TrackClick from "./analytics/track-click"
+import WhatsAppButton from "./whatsapp-button"
 
 interface TypographyProps {
   fontFamily?: string
@@ -149,6 +151,14 @@ export default function ContentSection({
             </div>
           )}
 
+          <div className="text-center mt-8">
+            <TrackClick eventName="content_cta_click" elementId="content-cta">
+              <WhatsAppButton
+                buttonText="Fale com a especialista!"
+                phoneNumber="+55 11 97431-6804"
+                message="Olá! Gostaria de agendar uma consulta com a Dra. Oliveira." />
+            </TrackClick>
+          </div>
           {buttonText && buttonLink && (
             <Button
               asChild

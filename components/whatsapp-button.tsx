@@ -44,8 +44,8 @@ export default function WhatsAppButton({
 
   return (
     <Button onClick={handleClick} className={`bg-[#25D366] hover:bg-[#128C7E] text-white ${className}`} {...props}>
-      <MessageCircle className="mr-2 h-4 w-4" />
       {buttonText || children || "Enviar Mensagem"}
+      <MessageCircle className="h-4 w-4" />
     </Button>
   )
 }

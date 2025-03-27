@@ -2,12 +2,11 @@ import { supabase } from "../supabase/client"
 import { v4 as uuidv4 } from "uuid"
 import type {
   PageView,
-  ClickEvent,
   AnalyticsPeriod,
   PageViewsResponse,
   ClickEventsResponse,
   AnalyticsDashboardData,
-} from "@/lib/types/analytics"
+} from "../types/analytics"
 
 // Função para obter ou criar um ID de sessão
 export const getSessionId = (): string => {
@@ -60,13 +59,19 @@ export const trackPageView = async (path: string): Promise<void> => {
     const userAgent = navigator.userAgent;
     const deviceType = getDeviceType(userAgent)
 
+    const saoPauloOffset = -3 * 60;
+    const localDate = new Date();
+    const utcTime = localDate.getTime();
+    const saoPauloTime = new Date(utcTime + saoPauloOffset * 60 * 1000);
+
     // Dados básicos da visualização
     const pageView: PageView = {
       page_path: path,
       session_id: sessionId,
       referrer: document.referrer || undefined,
-      user_agent: userAgent,
-      device_type: deviceType
+      user_agent: navigator.userAgent,
+      device_type: deviceType,
+      created_at: saoPauloTime.toISOString()
     }
 
     // Enviar dados para o Supabase
@@ -77,23 +82,27 @@ export const trackPageView = async (path: string): Promise<void> => {
 }
 
 // Função para rastrear eventos de clique
-export const trackClickEvent = async (eventName: string, elementId?: string, elementClass?: string): Promise<void> => {
+export async function trackClickEvent(eventName: string, elementId?: string, elementClass?: string): Promise<void> {
   try {
-    const sessionId = getSessionId()
+    const response = await fetch("/api/analytics/click-events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        eventName,
+        elementId,
+        elementClass,
+        url: window.location.href,
+        path: window.location.pathname,
+      }),
+    })
 
-    // Dados do evento de clique
-    const clickEvent: ClickEvent = {
-      event_name: eventName,
-      element_id: elementId,
-      element_class: elementClass,
-      page_path: window.location.pathname,
-      session_id: sessionId,
+    if (!response.ok) {
+      throw new Error(`Error tracking click event: ${response.statusText}`)
     }
-
-    // Enviar dados para o Supabase
-    await supabase.from("click_events").insert(clickEvent)
   } catch (error) {
-    console.error("Error tracking click event:", error)
+    console.error("Failed to track click event:", error)
   }
 }
 

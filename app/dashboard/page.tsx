@@ -41,8 +41,6 @@ async function DashboardContent() {
       .then(({ data }) => data || []),
   ])
 
-  console.log(deviceBreakdownResponse);
-
   // Obter visualizações diárias
   const { data: dailyViews } = await supabase.rpc("get_daily_views", {
     start_date: startDate,
@@ -75,11 +73,11 @@ async function DashboardContent() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Dashboard de Desempenho</h1>
+        <h1 className="text-2xl md:text-3xl font-bold">Dashboard de Desempenho</h1>
       </div>
 
       {/* Métricas principais */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <Card className="bg-white">
           <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
             <CardTitle className="text-sm font-medium">Visitantes Únicos</CardTitle>
@@ -91,7 +89,7 @@ async function DashboardContent() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#EEFDF3]">
+        <Card className="bg-white">
           <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
             <CardTitle className="text-sm font-medium">Taxa de Engajamento</CardTitle>
             <Star className="h-4 w-4 text-[#25D366]" />
@@ -102,7 +100,7 @@ async function DashboardContent() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#EEF6FF]">
+        <Card className="bg-white sm:col-span-2 md:col-span-1">
           <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
             <CardTitle className="text-sm font-medium">Média Diária</CardTitle>
             <CalendarDays className="h-4 w-4 text-blue-500" />
@@ -114,7 +112,7 @@ async function DashboardContent() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Gráfico de tendência */}
         <Card>
           <CardHeader>
@@ -124,7 +122,7 @@ async function DashboardContent() {
             </div>
             <CardDescription>Evolução de visitantes nos últimos 30 dias</CardDescription>
           </CardHeader>
-          <CardContent className="h-80">
+          <CardContent className="h-[300px] md:h-80">
             <LineChart
               data={dailyViews || []}
               xField="date"
@@ -145,7 +143,7 @@ async function DashboardContent() {
             </div>
             <CardDescription>Como seus potenciais clientes acessam seu site</CardDescription>
           </CardHeader>
-          <CardContent className="h-80">
+          <CardContent className="h-[300px] md:h-80">
             <PieChart
               data={deviceBreakdownResponse}
               nameField="device_type"
@@ -157,7 +155,7 @@ async function DashboardContent() {
       </div>
 
       {/* Métricas de conversão */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -247,14 +245,13 @@ function DashboardSkeleton() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <Skeleton className="h-10 w-64" />
-        <Skeleton className="h-10 w-40" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {Array(3)
           .fill(0)
           .map((_, i) => (
-            <Card key={i}>
+            <Card key={i} className={i === 2 ? "sm:col-span-2 md:col-span-1" : ""}>
               <CardHeader className="pb-2">
                 <div className="flex justify-between">
                   <Skeleton className="h-5 w-32" />
@@ -269,7 +266,7 @@ function DashboardSkeleton() {
           ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {Array(2)
           .fill(0)
           .map((_, i) => (
@@ -282,7 +279,7 @@ function DashboardSkeleton() {
                 <Skeleton className="h-4 w-64 mt-1" />
               </CardHeader>
               <CardContent>
-                <Skeleton className="h-80 w-full" />
+                <Skeleton className="h-[300px] md:h-80 w-full" />
               </CardContent>
             </Card>
           ))}

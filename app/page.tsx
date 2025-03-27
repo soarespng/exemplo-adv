@@ -14,6 +14,7 @@ import HowItWorks from "@/components/how-it-works"
 import Navbar from "@/components/navbar"
 import ServicesFeature from "@/components/services-feature"
 import TestimonialGrid from "@/components/testimonial-grid"
+
 import {
   Briefcase,
   FileCheck,
@@ -234,7 +235,7 @@ export default function Home() {
       {/* Como Trabalhamos */}
       <section id="processo" className="bg-[#F9F5F0]">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-[#262425] mb-2 text-center">Como Trabalhamos</h2>
+          {/* <h2 className="text-4xl font-bold text-[#262425] mb-2 text-center">Como Trabalhamos</h2> */}
           <p className="text-lg font-medium text-[#8C583A] mb-8 text-center">NOSSO PROCESSO</p>
 
           <HowItWorks
